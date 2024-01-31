@@ -11,23 +11,16 @@ namespace SignalRAssignment.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly Repository.Model.PizzaStoreContext _context;
+        private readonly ILogger<IndexModel> _logger;
 
-        public IndexModel(Repository.Model.PizzaStoreContext context)
+        public IndexModel(ILogger<IndexModel> logger)
         {
-            _context = context;
+            _logger = logger;
         }
 
-        public IList<Product> Product { get;set; } = default!;
-
-        public async Task OnGetAsync()
+        public void OnGet()
         {
-            if (_context.Products != null)
-            {
-                Product = await _context.Products
-                .Include(p => p.Category)
-                .Include(p => p.Supplier).ToListAsync();
-            }
+
         }
     }
 }

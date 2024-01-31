@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Repository.Model;
 
-namespace SignalRAssignment.Pages
+namespace SignalRAssignment.Pages.SupplierPages
 {
     public class EditModel : PageModel
     {
@@ -20,23 +20,21 @@ namespace SignalRAssignment.Pages
         }
 
         [BindProperty]
-        public Product Product { get; set; } = default!;
+        public Supplier Supplier { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Products == null)
+            if (id == null || _context.Suppliers == null)
             {
                 return NotFound();
             }
 
-            var product =  await _context.Products.FirstOrDefaultAsync(m => m.ProductId == id);
-            if (product == null)
+            var supplier =  await _context.Suppliers.FirstOrDefaultAsync(m => m.SupplierId == id);
+            if (supplier == null)
             {
                 return NotFound();
             }
-            Product = product;
-           ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
-           ViewData["SupplierId"] = new SelectList(_context.Suppliers, "SupplierId", "Address");
+            Supplier = supplier;
             return Page();
         }
 
@@ -49,7 +47,7 @@ namespace SignalRAssignment.Pages
                 return Page();
             }
 
-            _context.Attach(Product).State = EntityState.Modified;
+            _context.Attach(Supplier).State = EntityState.Modified;
 
             try
             {
@@ -57,7 +55,7 @@ namespace SignalRAssignment.Pages
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ProductExists(Product.ProductId))
+                if (!SupplierExists(Supplier.SupplierId))
                 {
                     return NotFound();
                 }
@@ -70,9 +68,9 @@ namespace SignalRAssignment.Pages
             return RedirectToPage("./Index");
         }
 
-        private bool ProductExists(int id)
+        private bool SupplierExists(int id)
         {
-          return (_context.Products?.Any(e => e.ProductId == id)).GetValueOrDefault();
+          return (_context.Suppliers?.Any(e => e.SupplierId == id)).GetValueOrDefault();
         }
     }
 }

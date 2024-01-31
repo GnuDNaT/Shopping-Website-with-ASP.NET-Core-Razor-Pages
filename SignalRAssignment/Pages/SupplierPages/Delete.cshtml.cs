@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Repository.Model;
 
-namespace SignalRAssignment.Pages
+namespace SignalRAssignment.Pages.SupplierPages
 {
     public class DeleteModel : PageModel
     {
@@ -19,40 +19,40 @@ namespace SignalRAssignment.Pages
         }
 
         [BindProperty]
-      public Product Product { get; set; } = default!;
+      public Supplier Supplier { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Products == null)
+            if (id == null || _context.Suppliers == null)
             {
                 return NotFound();
             }
 
-            var product = await _context.Products.FirstOrDefaultAsync(m => m.ProductId == id);
+            var supplier = await _context.Suppliers.FirstOrDefaultAsync(m => m.SupplierId == id);
 
-            if (product == null)
+            if (supplier == null)
             {
                 return NotFound();
             }
             else 
             {
-                Product = product;
+                Supplier = supplier;
             }
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (id == null || _context.Products == null)
+            if (id == null || _context.Suppliers == null)
             {
                 return NotFound();
             }
-            var product = await _context.Products.FindAsync(id);
+            var supplier = await _context.Suppliers.FindAsync(id);
 
-            if (product != null)
+            if (supplier != null)
             {
-                Product = product;
-                _context.Products.Remove(Product);
+                Supplier = supplier;
+                _context.Suppliers.Remove(Supplier);
                 await _context.SaveChangesAsync();
             }
 

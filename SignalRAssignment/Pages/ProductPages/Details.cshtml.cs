@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Repository.Model;
 
-namespace SignalRAssignment.Pages
+namespace SignalRAssignment.Pages.ProductPages
 {
     public class DetailsModel : PageModel
     {
