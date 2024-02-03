@@ -10,6 +10,7 @@ namespace Repository.Interface
     public interface IGenericRepository<T> where T : class
     {
         T GetById(int id);
+        T GetByUserName(string name);
         IEnumerable<T> GetAll();
         IEnumerable<T> Find(Expression<Func<T, bool>> expression);
         void Add(T entity);

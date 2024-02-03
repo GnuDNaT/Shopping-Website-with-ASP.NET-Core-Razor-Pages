@@ -13,11 +13,13 @@ namespace Repository.Repository
         private readonly PizzaStoreContext _context;
         public ICustomerRepository Customers { get; private set; }
         public IOderRepository Orders { get; private set; }
+        public IAccountRepository Accounts { get; private set; }
         public UnitOfWork(PizzaStoreContext context)
         {
             _context = context;
             Customers = new CustomerRepository(_context);
             Orders = new OrderRepository(_context);
+            Accounts = new AccountRepository(_context);
         }
         public int Save()
         {

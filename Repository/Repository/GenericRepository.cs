@@ -43,6 +43,11 @@ namespace Repository.Repository
             return _context.Set<T>().Find(id);
         }
 
+        public T GetByUserName(string name)
+        {
+            return _context.Set<T>().Find(name);
+        }
+
         public void Remove(T entity)
         {
             _context.Set<T>().Remove(entity);

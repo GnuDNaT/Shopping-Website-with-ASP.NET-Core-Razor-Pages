@@ -11,8 +11,8 @@ namespace Repository.Model
         public DateTime? RequiredDate { get; set; }
         public DateTime? ShippedDate { get; set; }
         public decimal? Freight { get; set; }
-        public string ShipAddress { get; set; }
+        public string? ShipAddress { get; set; }
 
-        public virtual Customer Customer { get; set; }
+        public virtual Customer? Customer { get; set; }
     }
 }
