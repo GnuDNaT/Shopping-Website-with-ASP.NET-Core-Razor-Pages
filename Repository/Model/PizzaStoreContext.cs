@@ -65,7 +65,6 @@ namespace Repository.Model
             modelBuilder.Entity<Category>(entity =>
             {
                 entity.Property(e => e.CategoryId)
-                    .ValueGeneratedNever()
                     .HasColumnName("CategoryID");
 
                 entity.Property(e => e.CategoryName).HasMaxLength(255);
