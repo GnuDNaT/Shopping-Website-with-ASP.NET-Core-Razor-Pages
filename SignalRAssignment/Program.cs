@@ -8,7 +8,17 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
-builder.Services.AddSession();
+// Add session services
+builder.Services.AddDistributedMemoryCache(); // Stores session in-memory, use distributed cache in production
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(220); // Session timeout
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+// Add framework services.
+builder.Services.AddRazorPages();
 
 builder.Services.AddDbContext<PizzaStoreContext>(options =>
 {

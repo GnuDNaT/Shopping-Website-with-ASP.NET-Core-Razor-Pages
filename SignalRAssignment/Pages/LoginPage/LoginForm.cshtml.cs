@@ -36,10 +36,13 @@ namespace SignalRAssignment.Pages.CustomerPages
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-            var accountRepository = new AccountRepository(_context);
-
-            if (IsValidLogin(_accountService.GetUserByUsernameAndPasswordAsync(Account.UserName, Account.Password)))
+            var account = await _accountService.GetUserByUsernameAndPasswordAsync(Account.UserName, Account.Password);
+            if (account != null)
             {
+                // Serialize user information as JSON or store individual properties as needed
+                var accountJson = System.Text.Json.JsonSerializer.Serialize(account);
+                HttpContext.Session.SetString("UserSession", accountJson); // Store user information in session
+
                 return RedirectToPage("/Index");
             }
             else
