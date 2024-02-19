@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Repository.Interface;
 using Repository.Model;
 using Repository.Repository;
 
@@ -13,11 +14,15 @@ namespace SignalRAssignment.Pages.CustomerPages
     public class LoginFormModel : PageModel
     {
         private readonly Repository.Model.PizzaStoreContext _context;
+        private readonly IAccountRepository _accountService;
 
-        public LoginFormModel(Repository.Model.PizzaStoreContext context)
+        public LoginFormModel(Repository.Model.PizzaStoreContext context, IAccountRepository accountService)
         {
             _context = context;
+            _accountService = accountService;
         }
+
+
 
         public IActionResult OnGet()
         {
@@ -33,7 +38,7 @@ namespace SignalRAssignment.Pages.CustomerPages
         {
             var accountRepository = new AccountRepository(_context);
 
-            if (IsValidLogin(accountRepository.GetByUserName(Account.UserName), Account.Password))
+            if (IsValidLogin(_accountService.GetUserByUsernameAndPasswordAsync(Account.UserName, Account.Password)))
             {
                 return RedirectToPage("/Index");
             }
@@ -43,9 +48,9 @@ namespace SignalRAssignment.Pages.CustomerPages
                 return Page();
             }
         }
-        private bool IsValidLogin(Account account, string password)
+        private bool IsValidLogin(Task<Account> account)
         {
-            return (account != null && account.Password == password);
+            return (account != null);
         }
     }
 }

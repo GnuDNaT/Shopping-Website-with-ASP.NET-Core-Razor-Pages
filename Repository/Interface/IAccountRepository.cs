@@ -9,5 +9,6 @@ namespace Repository.Interface
 {
     public interface IAccountRepository : IGenericRepository<Account>
     {
+        Task<Account> GetUserByUsernameAndPasswordAsync(string username, string password);
     }
 }

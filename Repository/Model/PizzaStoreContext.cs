@@ -64,7 +64,7 @@ namespace Repository.Model
 
             modelBuilder.Entity<Category>(entity =>
             {
-                entity.Property(e => e.CategoryId)
+                entity.Property(e => e.CategoryId).ValueGeneratedNever()
                     .HasColumnName("CategoryID");
 
                 entity.Property(e => e.CategoryName).HasMaxLength(255);
@@ -72,8 +72,7 @@ namespace Repository.Model
 
             modelBuilder.Entity<Customer>(entity =>
             {
-                entity.Property(e => e.CustomerId)
-                    .ValueGeneratedNever()
+                entity.Property(e => e.CustomerId).ValueGeneratedNever()
                     .HasColumnName("CustomerID");
 
                 entity.Property(e => e.Address).HasMaxLength(255);
@@ -87,7 +86,7 @@ namespace Repository.Model
 
             modelBuilder.Entity<Order>(entity =>
             {
-                entity.Property(e => e.OrderId).ValueGeneratedNever();
+                entity.Property(e => e.OrderId);
 
                 entity.Property(e => e.Freight).HasColumnType("decimal(18, 0)");
 
@@ -109,7 +108,8 @@ namespace Repository.Model
 
             modelBuilder.Entity<OrderDetail>(entity =>
             {
-                entity.HasNoKey();
+                entity.Property(e => e.ProductId)
+                    .HasColumnName("OrderDetailID"); ;
 
                 entity.Property(e => e.UnitPrice).HasColumnType("decimal(18, 0)");
 
