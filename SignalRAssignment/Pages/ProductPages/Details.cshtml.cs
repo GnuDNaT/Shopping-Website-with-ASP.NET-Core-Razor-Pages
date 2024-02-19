@@ -27,7 +27,10 @@ namespace SignalRAssignment.Pages.ProductPages
                 return NotFound();
             }
 
-            var product = await _context.Products.FirstOrDefaultAsync(m => m.ProductId == id);
+            var product = await _context.Products
+                                        .Include(p => p.Category)
+                                        .Include(p => p.Supplier)
+                                        .FirstOrDefaultAsync(m => m.ProductId == id);
             if (product == null)
             {
                 return NotFound();

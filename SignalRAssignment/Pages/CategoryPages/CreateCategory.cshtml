@@ -1,28 +1,17 @@
 ﻿@page
-@model SignalRAssignment.Pages.CustomerPages.CreateModel
-
+@model SignalRAssignment.Pages.CategoryPages.CreateCategoryModel
 @{
     ViewData["Title"] = "Create";
 }
 
 <h1>Create</h1>
 
-<h4>Customer</h4>
+<h4>Category</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Customer.Password" class="control-label"></label>
-                <input asp-for="Customer.Password" class="form-control" />
-                <span asp-validation-for="Customer.Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Customer.ContactName" class="control-label"></label>
-                <input asp-for="Customer.ContactName" class="form-control" />
-                <span asp-validation-for="Customer.ContactName" class="text-danger"></span>
-            </div>
             <div class="form-group">
                 <label asp-for="Customer.Address" class="control-label"></label>
                 <input asp-for="Customer.Address" class="form-control" />
@@ -45,5 +34,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

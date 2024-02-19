@@ -25,23 +25,23 @@ namespace Repository.Model
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer(ConnectionString());
-            }
-        }
-        public string ConnectionString()
-        {
-            string connectString = "";
-            IConfiguration config = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", true, true)
-                .Build();
-            connectString = config["ConnectionStrings:PizzaStore"];
-            return connectString;
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    if (!optionsBuilder.IsConfigured)
+        //    {
+        //        optionsBuilder.UseSqlServer(ConnectionString());
+        //    }
+        //}
+        //public string ConnectionString()
+        //{
+        //    string connectString = "";
+        //    IConfiguration config = new ConfigurationBuilder()
+        //        .SetBasePath(Directory.GetCurrentDirectory())
+        //        .AddJsonFile("appsettings.json", true, true)
+        //        .Build();
+        //    connectString = config["ConnectionStrings:PizzaStore"];
+        //    return connectString;
+        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -50,7 +50,7 @@ namespace Repository.Model
                 entity.ToTable("Account");
 
                 entity.Property(e => e.AccountId)
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("AccountID");
 
                 entity.Property(e => e.FullName).HasMaxLength(100);
@@ -64,7 +64,7 @@ namespace Repository.Model
 
             modelBuilder.Entity<Category>(entity =>
             {
-                entity.Property(e => e.CategoryId).ValueGeneratedNever()
+                entity.Property(e => e.CategoryId).ValueGeneratedOnAdd()
                     .HasColumnName("CategoryID");
 
                 entity.Property(e => e.CategoryName).HasMaxLength(255);
@@ -72,7 +72,7 @@ namespace Repository.Model
 
             modelBuilder.Entity<Customer>(entity =>
             {
-                entity.Property(e => e.CustomerId).ValueGeneratedNever()
+                entity.Property(e => e.CustomerId).ValueGeneratedOnAdd()
                     .HasColumnName("CustomerID");
 
                 entity.Property(e => e.Address).HasMaxLength(255);
@@ -86,7 +86,7 @@ namespace Repository.Model
 
             modelBuilder.Entity<Order>(entity =>
             {
-                entity.Property(e => e.OrderId);
+                entity.Property(e => e.OrderId).ValueGeneratedOnAdd().HasColumnName("OrderId");
 
                 entity.Property(e => e.Freight).HasColumnType("decimal(18, 0)");
 
@@ -108,7 +108,7 @@ namespace Repository.Model
 
             modelBuilder.Entity<OrderDetail>(entity =>
             {
-                entity.Property(e => e.ProductId)
+                entity.Property(e => e.ProductId).ValueGeneratedOnAdd()
                     .HasColumnName("OrderDetailID"); ;
 
                 entity.Property(e => e.UnitPrice).HasColumnType("decimal(18, 0)");
@@ -127,8 +127,7 @@ namespace Repository.Model
             modelBuilder.Entity<Product>(entity =>
             {
                 entity.Property(e => e.ProductId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("ProductID");
+                    .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
 
@@ -141,6 +140,8 @@ namespace Repository.Model
                     .IsUnicode(false);
 
                 entity.Property(e => e.SupplierId).HasColumnName("SupplierID");
+
+                entity.Property(e => e.ProductImage).HasMaxLength(150);
 
                 entity.Property(e => e.UnitPrice).HasColumnType("decimal(18, 0)");
 
@@ -158,7 +159,7 @@ namespace Repository.Model
             modelBuilder.Entity<Supplier>(entity =>
             {
                 entity.Property(e => e.SupplierId)
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("SupplierID");
 
                 entity.Property(e => e.Address).HasMaxLength(255);

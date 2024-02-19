@@ -17,6 +17,12 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
+//Congig local db
+builder.Services.AddDbContext<PizzaStoreContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("PizzaStore"));
+});
+
 // Add framework services.
 builder.Services.AddRazorPages();
 

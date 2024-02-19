@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRAssignment", "SignalRAssignment\SignalRAssignment.csproj", "{0D16392D-C1FF-413F-8718-9006E181C603}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalRAssignment", "SignalRAssignment\SignalRAssignment.csproj", "{0D16392D-C1FF-413F-8718-9006E181C603}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{163620FA-ABFB-49B7-B565-CD050CC03D93}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Repository.csproj", "{163620FA-ABFB-49B7-B565-CD050CC03D93}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

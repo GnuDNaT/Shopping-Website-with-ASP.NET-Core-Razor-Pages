@@ -29,16 +29,20 @@ namespace SignalRAssignment.Pages.ProductPages
                 return NotFound();
             }
 
-            var product =  await _context.Products.FirstOrDefaultAsync(m => m.ProductId == id);
+            var product = await _context.Products.FirstOrDefaultAsync(m => m.ProductId == id);
             if (product == null)
             {
                 return NotFound();
             }
             Product = product;
-           ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
-           ViewData["SupplierId"] = new SelectList(_context.Suppliers, "SupplierId", "Address");
+
+            // Set SelectList for Categories and Suppliers
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", Product.CategoryId);
+            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "SupplierId", "CompanyName", Product.SupplierId);
+
             return Page();
         }
+
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see https://aka.ms/RazorPagesCRUD.
