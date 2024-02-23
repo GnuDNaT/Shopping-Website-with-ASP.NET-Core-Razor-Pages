@@ -13,13 +13,11 @@ namespace SignalRAssignment.Pages.CustomerPages
 {
     public class LoginFormModel : PageModel
     {
-        private readonly Repository.Model.PizzaStoreContext _context;
-        private readonly IAccountRepository _accountService;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public LoginFormModel(Repository.Model.PizzaStoreContext context, IAccountRepository accountService)
+        public LoginFormModel(IUnitOfWork unitOfWork)
         {
-            _context = context;
-            _accountService = accountService;
+            _unitOfWork = unitOfWork;
         }
 
 
@@ -36,7 +34,7 @@ namespace SignalRAssignment.Pages.CustomerPages
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-            var account = await _accountService.GetUserByUsernameAndPasswordAsync(Account.UserName, Account.Password);
+            var account = await _unitOfWork.Accounts.GetUserByUsernameAndPasswordAsync(Account.UserName, Account.Password);
             if (account != null)
             {
                 // Serialize user information as JSON or store individual properties as needed

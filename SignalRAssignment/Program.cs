@@ -30,8 +30,12 @@ builder.Services.AddDbContext<PizzaStoreContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("PizzaStore"));
 });
+
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<IOderRepository, OrderRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 
 var app = builder.Build();

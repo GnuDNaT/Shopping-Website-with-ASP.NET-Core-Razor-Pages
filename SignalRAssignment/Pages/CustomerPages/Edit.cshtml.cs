@@ -6,30 +6,27 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Repository.Interface;
 using Repository.Model;
 
 namespace SignalRAssignment.Pages.CustomerPages
 {
     public class EditModel : PageModel
     {
-        private readonly Repository.Model.PizzaStoreContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public EditModel(Repository.Model.PizzaStoreContext context)
+        public EditModel(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         [BindProperty]
         public Customer Customer { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public  IActionResult OnGetAsync(int id)
         {
-            if (id == null || _context.Customers == null)
-            {
-                return NotFound();
-            }
 
-            var customer =  await _context.Customers.FirstOrDefaultAsync(m => m.CustomerId == id);
+            var customer =  _unitOfWork.Customers.GetById(id);
             if (customer == null)
             {
                 return NotFound();
@@ -47,11 +44,11 @@ namespace SignalRAssignment.Pages.CustomerPages
                 return Page();
             }
 
-            _context.Attach(Customer).State = EntityState.Modified;
+            _unitOfWork.StoreContext.Attach(Customer).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                _unitOfWork.Save();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -70,7 +67,7 @@ namespace SignalRAssignment.Pages.CustomerPages
 
         private bool CustomerExists(int id)
         {
-          return (_context.Customers?.Any(e => e.CustomerId == id)).GetValueOrDefault();
+          return (_unitOfWork.StoreContext.Customers?.Any(e => e.CustomerId == id)).GetValueOrDefault();
         }
     }
 }

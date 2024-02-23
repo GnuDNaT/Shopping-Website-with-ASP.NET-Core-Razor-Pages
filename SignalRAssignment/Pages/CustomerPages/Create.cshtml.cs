@@ -5,17 +5,18 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Repository.Interface;
 using Repository.Model;
 
 namespace SignalRAssignment.Pages.CustomerPages
 {
     public class CreateModel : PageModel
     {
-        private readonly Repository.Model.PizzaStoreContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CreateModel(Repository.Model.PizzaStoreContext context)
+        public CreateModel(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         public IActionResult OnGet()
@@ -25,18 +26,18 @@ namespace SignalRAssignment.Pages.CustomerPages
 
         [BindProperty]
         public Customer Customer { get; set; } = default!;
-        
+
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPost()
         {
-          if (!ModelState.IsValid || _context.Customers == null || Customer == null)
+            if (!ModelState.IsValid || _unitOfWork.Customers == null || Customer == null)
             {
                 return Page();
             }
 
-            _context.Customers.Add(Customer);
-            await _context.SaveChangesAsync();
+            _unitOfWork.Customers.Add(Customer);
+            _unitOfWork.Save();
 
             return RedirectToPage("./Index");
         }

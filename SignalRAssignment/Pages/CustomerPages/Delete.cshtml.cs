@@ -5,55 +5,47 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Repository.Interface;
 using Repository.Model;
 
 namespace SignalRAssignment.Pages.CustomerPages
 {
     public class DeleteModel : PageModel
     {
-        private readonly Repository.Model.PizzaStoreContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public DeleteModel(Repository.Model.PizzaStoreContext context)
+        public DeleteModel(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         [BindProperty]
       public Customer Customer { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
-        {
-            if (id == null || _context.Customers == null)
-            {
-                return NotFound();
-            }
-
-            var customer = await _context.Customers.FirstOrDefaultAsync(m => m.CustomerId == id);
+        public IActionResult OnGet(int id)
+        {  
+            var customer = _unitOfWork.Customers.GetById(id);
 
             if (customer == null)
             {
                 return NotFound();
             }
-            else 
+            else
             {
                 Customer = customer;
             }
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id)
+        public IActionResult OnPostAsync(int id)
         {
-            if (id == null || _context.Customers == null)
-            {
-                return NotFound();
-            }
-            var customer = await _context.Customers.FindAsync(id);
+            var customer = _unitOfWork.Customers.GetById(id);
 
             if (customer != null)
             {
                 Customer = customer;
-                _context.Customers.Remove(Customer);
-                await _context.SaveChangesAsync();
+                _unitOfWork.Customers.Remove(Customer);
+                _unitOfWork.Save();
             }
 
             return RedirectToPage("./Index");

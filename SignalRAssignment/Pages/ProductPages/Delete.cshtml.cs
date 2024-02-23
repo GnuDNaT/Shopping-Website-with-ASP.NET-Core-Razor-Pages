@@ -5,30 +5,27 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Repository.Interface;
 using Repository.Model;
 
 namespace SignalRAssignment.Pages.ProductPages
 {
     public class DeleteModel : PageModel
     {
-        private readonly Repository.Model.PizzaStoreContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public DeleteModel(Repository.Model.PizzaStoreContext context)
+        public DeleteModel(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         [BindProperty]
       public Product Product { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public IActionResult OnGetAsync(int id)
         {
-            if (id == null || _context.Products == null)
-            {
-                return NotFound();
-            }
 
-            var product = await _context.Products.FirstOrDefaultAsync(m => m.ProductId == id);
+            var product =  _unitOfWork.Products.GetById( id);
 
             if (product == null)
             {
@@ -41,19 +38,15 @@ namespace SignalRAssignment.Pages.ProductPages
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id)
+        public IActionResult OnPostAsync(int id)
         {
-            if (id == null || _context.Products == null)
-            {
-                return NotFound();
-            }
-            var product = await _context.Products.FindAsync(id);
+            var product = _unitOfWork.Products.GetById(id);
 
             if (product != null)
             {
                 Product = product;
-                _context.Products.Remove(Product);
-                await _context.SaveChangesAsync();
+                _unitOfWork.Products.Remove(Product);
+                _unitOfWork.Save();
             }
 
             return RedirectToPage("./Index");

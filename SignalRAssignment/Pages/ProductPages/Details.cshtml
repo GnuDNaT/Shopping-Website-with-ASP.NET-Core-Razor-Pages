@@ -12,44 +12,44 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Product.ProductName)
+            @Html.DisplayNameFor(model => model.Products.ProductName)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Product.ProductName)
+            @Html.DisplayFor(model => model.Products.ProductName)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Product.QuantityPerUnit)
+            @Html.DisplayNameFor(model => model.Products.QuantityPerUnit)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Product.QuantityPerUnit)
+            @Html.DisplayFor(model => model.Products.QuantityPerUnit)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Product.UnitPrice)
+            @Html.DisplayNameFor(model => model.Products.UnitPrice)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Product.UnitPrice)
+            @Html.DisplayFor(model => model.Products.UnitPrice)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Product.ProductImage)
+            @Html.DisplayNameFor(model => model.Products.ProductImage)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Product.ProductImage)
+            @Html.DisplayFor(model => model.Products.ProductImage)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Product.Category)
+            @Html.DisplayNameFor(model => model.Products.Category)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Product.Category.CategoryName)
+            @Html.DisplayFor(model => model.Products.Category.CategoryName)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Product.Supplier)
+            @Html.DisplayNameFor(model => model.Products.Supplier)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Product.Supplier.Address)
+            @Html.DisplayFor(model => model.Products.Supplier.Address)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-page="./Edit" asp-route-id="@Model.Product?.ProductId">Edit</a> |
+    <a asp-page="./Edit" asp-route-id="@Model.Products?.ProductId">Edit</a> |
     <a asp-page="./Index">Back to List</a>
 </div>

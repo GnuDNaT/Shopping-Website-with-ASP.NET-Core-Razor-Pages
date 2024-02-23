@@ -5,29 +5,26 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Repository.Interface;
 using Repository.Model;
 
 namespace SignalRAssignment.Pages.ProductPages
 {
     public class DetailsModel : PageModel
     {
-        private readonly Repository.Model.PizzaStoreContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public DetailsModel(Repository.Model.PizzaStoreContext context)
+        public DetailsModel(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
-      public Product Product { get; set; } = default!; 
+      public Product Products { get; set; } = default!; 
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
-            if (id == null || _context.Products == null)
-            {
-                return NotFound();
-            }
-
-            var product = await _context.Products
+            //var product = await _unitOfWork.Products.GetProduct(id);
+            var product = await _unitOfWork.StoreContext.Products
                                         .Include(p => p.Category)
                                         .Include(p => p.Supplier)
                                         .FirstOrDefaultAsync(m => m.ProductId == id);
@@ -37,7 +34,7 @@ namespace SignalRAssignment.Pages.ProductPages
             }
             else 
             {
-                Product = product;
+                Products = product;
             }
             return Page();
         }

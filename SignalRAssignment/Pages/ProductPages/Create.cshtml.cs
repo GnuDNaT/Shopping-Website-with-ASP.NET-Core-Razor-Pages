@@ -5,40 +5,41 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Repository.Interface;
 using Repository.Model;
 
 namespace SignalRAssignment.Pages.ProductPages
 {
     public class CreateModel : PageModel
     {
-        private readonly Repository.Model.PizzaStoreContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CreateModel(Repository.Model.PizzaStoreContext context)
+        public CreateModel(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         public IActionResult OnGet()
         {
-        ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
-        ViewData["SupplierId"] = new SelectList(_context.Suppliers, "SupplierId", "Address");
+        ViewData["CategoryId"] = new SelectList(_unitOfWork.StoreContext.Categories, "CategoryId", "CategoryName");
+        ViewData["SupplierId"] = new SelectList(_unitOfWork.StoreContext.Suppliers, "SupplierId", "Address");
             return Page();
         }
 
         [BindProperty]
-        public Product Product { get; set; } = default!;
+        public Product Products { get; set; } = default!;
         
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
-        public async Task<IActionResult> OnPostAsync()
+        public IActionResult OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.Products == null || Product == null)
+          if (!ModelState.IsValid || _unitOfWork.Products == null || Products == null)
             {
                 return Page();
             }
 
-            _context.Products.Add(Product);
-            await _context.SaveChangesAsync();
+            _unitOfWork.Products.Add(Products);
+            _unitOfWork.Save();
 
             return RedirectToPage("./Index");
         }
