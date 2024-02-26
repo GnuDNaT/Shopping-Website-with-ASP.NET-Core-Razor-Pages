@@ -5,30 +5,31 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Repository.Interface;
 using Repository.Model;
 
 namespace SignalRAssignment.Pages.SupplierPages
 {
     public class DeleteModel : PageModel
     {
-        private readonly Repository.Model.PizzaStoreContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public DeleteModel(Repository.Model.PizzaStoreContext context)
+        public DeleteModel(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         [BindProperty]
       public Supplier Supplier { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public IActionResult OnGetAsync(int id)
         {
-            if (id == null || _context.Suppliers == null)
+            if (id == null || _unitOfWork.Suppliers == null)
             {
                 return NotFound();
             }
 
-            var supplier = await _context.Suppliers.FirstOrDefaultAsync(m => m.SupplierId == id);
+            var supplier = _unitOfWork.Suppliers.GetById(id);
 
             if (supplier == null)
             {
@@ -41,19 +42,19 @@ namespace SignalRAssignment.Pages.SupplierPages
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id)
+        public IActionResult OnPostAsync(int id)
         {
-            if (id == null || _context.Suppliers == null)
+            if (id == null || _unitOfWork.Suppliers == null)
             {
                 return NotFound();
             }
-            var supplier = await _context.Suppliers.FindAsync(id);
+            var supplier =  _unitOfWork.Suppliers.GetById(id);
 
             if (supplier != null)
             {
                 Supplier = supplier;
-                _context.Suppliers.Remove(Supplier);
-                await _context.SaveChangesAsync();
+                _unitOfWork.Suppliers.Remove(Supplier);
+                _unitOfWork.Save();
             }
 
             return RedirectToPage("./Index");
