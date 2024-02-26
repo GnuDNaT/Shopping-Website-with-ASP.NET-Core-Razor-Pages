@@ -5,17 +5,18 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Repository.Interface;
 using Repository.Model;
 
 namespace SignalRAssignment.Pages.SupplierPages
 {
     public class CreateModel : PageModel
     {
-        private readonly Repository.Model.PizzaStoreContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CreateModel(Repository.Model.PizzaStoreContext context)
+        public CreateModel(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         public IActionResult OnGet()
@@ -30,13 +31,13 @@ namespace SignalRAssignment.Pages.SupplierPages
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.Suppliers == null || Supplier == null)
+          if (!ModelState.IsValid || _unitOfWork.Suppliers == null || Supplier == null)
             {
                 return Page();
             }
 
-            _context.Suppliers.Add(Supplier);
-            await _context.SaveChangesAsync();
+            _unitOfWork.Suppliers.Add(Supplier);
+            _unitOfWork.Save();
 
             return RedirectToPage("./Index");
         }
