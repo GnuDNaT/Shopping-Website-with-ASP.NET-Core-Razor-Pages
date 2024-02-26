@@ -32,10 +32,12 @@ builder.Services.AddDbContext<PizzaStoreContext>(options =>
 });
 
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<IAccountRepository, AccountRepository>();
-builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
-builder.Services.AddScoped<IOderRepository, OrderRepository>();
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddTransient<IGenericRepository<Account>, GenericRepository<Account>>();
+builder.Services.AddTransient<IGenericRepository<Customer>, GenericRepository<Customer>>();
+builder.Services.AddTransient<IGenericRepository<Order>, GenericRepository<Order>>();
+builder.Services.AddTransient<IGenericRepository<Product>, GenericRepository<Product>>();
+builder.Services.AddTransient<IGenericRepository<Supplier>, GenericRepository<Supplier>>();
+builder.Services.AddTransient<IGenericRepository<Category>, GenericRepository<Category>>();
 
 
 var app = builder.Build();

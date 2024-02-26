@@ -24,7 +24,7 @@ namespace SignalRAssignment.Pages.CustomerPages
 
         public IActionResult OnGet(int id)
         {  
-            var customer = _unitOfWork.Customers.GetById(id);
+            var customer = _unitOfWork.CustomersRepository.GetById(id);
 
             if (customer == null)
             {
@@ -39,12 +39,12 @@ namespace SignalRAssignment.Pages.CustomerPages
 
         public IActionResult OnPostAsync(int id)
         {
-            var customer = _unitOfWork.Customers.GetById(id);
+            var customer = _unitOfWork.CustomersRepository.GetById(id);
 
             if (customer != null)
             {
                 Customer = customer;
-                _unitOfWork.Customers.Remove(Customer);
+                _unitOfWork.CustomersRepository.Remove(Customer);
                 _unitOfWork.Save();
             }
 

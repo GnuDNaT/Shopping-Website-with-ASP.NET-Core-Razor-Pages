@@ -25,9 +25,9 @@ namespace SignalRAssignment.Pages.CustomerPages
 
         public void OnGet()
         {
-            if (_unitOfWork.Customers != null)
+            if (_unitOfWork.CustomersRepository != null)
             {
-                Customers = _unitOfWork.Customers.Get(filter: null,
+                Customers = _unitOfWork.CustomersRepository.Get(filter: null,
                                                     orderBy: null,
                                                     includeProperties: "", // Assuming no related entities to include, otherwise specify them as a comma-separated string
                                                     pageIndex: 1,

@@ -25,7 +25,7 @@ namespace SignalRAssignment.Pages.ProductPages
         public IActionResult OnGetAsync(int id)
         {
 
-            var product =  _unitOfWork.Products.GetById( id);
+            var product =  _unitOfWork.ProductsRepository.GetById( id);
 
             if (product == null)
             {
@@ -40,12 +40,12 @@ namespace SignalRAssignment.Pages.ProductPages
 
         public IActionResult OnPostAsync(int id)
         {
-            var product = _unitOfWork.Products.GetById(id);
+            var product = _unitOfWork.ProductsRepository.GetById(id);
 
             if (product != null)
             {
                 Product = product;
-                _unitOfWork.Products.Remove(Product);
+                _unitOfWork.ProductsRepository.Remove(Product);
                 _unitOfWork.Save();
             }
 

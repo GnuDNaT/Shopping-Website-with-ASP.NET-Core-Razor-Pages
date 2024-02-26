@@ -33,12 +33,12 @@ namespace SignalRAssignment.Pages.ProductPages
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public IActionResult OnPostAsync()
         {
-          if (!ModelState.IsValid || _unitOfWork.Products == null || Products == null)
+          if (!ModelState.IsValid || _unitOfWork.ProductsRepository == null || Products == null)
             {
                 return Page();
             }
 
-            _unitOfWork.Products.Add(Products);
+            _unitOfWork.ProductsRepository.Add(Products);
             _unitOfWork.Save();
 
             return RedirectToPage("./Index");

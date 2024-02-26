@@ -34,7 +34,7 @@ namespace SignalRAssignment.Pages.CustomerPages
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-            var account = await _unitOfWork.Accounts.GetUserByUsernameAndPasswordAsync(Account.UserName, Account.Password);
+            var account = await _unitOfWork.GetUserByUsernameAndPasswordAsync(Account.UserName, Account.Password);
             if (account != null)
             {
                 // Serialize user information as JSON or store individual properties as needed

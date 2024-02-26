@@ -24,7 +24,7 @@ namespace SignalRAssignment.Pages.ProductPages
 
         public IActionResult OnGetAsync(int id)
         {
-            var product = _unitOfWork.Products.GetById(id);
+            var product = _unitOfWork.ProductsRepository.GetById(id);
             if (product == null)
             {
                 return NotFound();

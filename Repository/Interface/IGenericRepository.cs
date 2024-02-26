@@ -11,15 +11,15 @@ namespace Repository.Interface
     public interface IGenericRepository<T> where T : class
     {
         T GetById(int id);
-        T GetByUserName(string name);
-        IEnumerable<T> GetAll();
+       // T GetByUserName(string name);
+       // IEnumerable<T> GetAll();
         IEnumerable<T> Get(
             Expression<Func<T, bool>> filter = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
             string includeProperties = "",
             int? pageIndex = null, // Optional parameter for pagination (page number)
             int? pageSize = null);
-        IEnumerable<T> Find(Expression<Func<T, bool>> expression);
+      //  IEnumerable<T> Find(Expression<Func<T, bool>> expression);
         void Add(T entity);
         void Update(T entity);
 

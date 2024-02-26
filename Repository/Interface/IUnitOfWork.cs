@@ -10,12 +10,14 @@ namespace Repository.Interface
     public interface IUnitOfWork : IDisposable
     {
         PizzaStoreContext StoreContext { get; }
-        ICustomerRepository Customers { get; }
-        IOderRepository Orders { get; }
-        IProductRepository Products { get; }
-        IAccountRepository Accounts { get; }
-        ISupplierRepository Suppliers { get; }
-        ICategoryRepository Categories { get; }
+        IGenericRepository<Customer> CustomersRepository { get; }
+        IGenericRepository<Order> OrdersRepository { get; }
+        IGenericRepository<Product> ProductsRepository { get; }
+        IGenericRepository<Supplier> SuppliersRepository { get; }
+        IGenericRepository<Category> CategoriesRepository { get; }
+        IGenericRepository<Account> AccountsRepository { get; }
+
+        Task<Account> GetUserByUsernameAndPasswordAsync(string username, string password);
         int Save();
     }
 }

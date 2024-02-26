@@ -26,7 +26,7 @@ namespace SignalRAssignment.Pages.CustomerPages
         public  IActionResult OnGetAsync(int id)
         {
 
-            var customer =  _unitOfWork.Customers.GetById(id);
+            var customer =  _unitOfWork.CustomersRepository.GetById(id);
             if (customer == null)
             {
                 return NotFound();
