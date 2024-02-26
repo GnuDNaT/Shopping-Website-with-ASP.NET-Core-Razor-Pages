@@ -49,9 +49,5 @@ namespace SignalRAssignment.Pages.CustomerPages
                 return Page();
             }
         }
-        private bool IsValidLogin(Task<Account> account)
-        {
-            return (account != null);
-        }
     }
 }
