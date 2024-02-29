@@ -26,10 +26,6 @@ builder.Services.AddDbContext<PizzaStoreContext>(options =>
 // Add framework services.
 builder.Services.AddRazorPages();
 
-builder.Services.AddDbContext<PizzaStoreContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("PizzaStore"));
-});
 
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
