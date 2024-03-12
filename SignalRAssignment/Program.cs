@@ -23,13 +23,6 @@ builder.Services.AddDbContext<PizzaStoreContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("PizzaStore"));
 });
 
-// Add framework services.
-builder.Services.AddRazorPages();
-
-builder.Services.AddDbContext<PizzaStoreContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("PizzaStore"));
-});
 
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 builder.Services.AddTransient<IGenericRepository<Account>, GenericRepository<Account>>();

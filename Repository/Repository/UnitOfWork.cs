@@ -11,7 +11,7 @@ namespace Repository.Repository
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private  PizzaStoreContext _context ;
+        private readonly PizzaStoreContext _context ;
         private IGenericRepository<Customer> _customersRepository;
         private IGenericRepository<Account> _accountRepository;
         private IGenericRepository<Order> _orderRepository;
