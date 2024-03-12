@@ -24,12 +24,12 @@ namespace SignalRAssignment.Pages.SupplierPages
 
         public IActionResult OnGetAsync(int id)
         {
-            if (id == null || _unitOfWork.Suppliers == null)
+            if (id == null || _unitOfWork.SuppliersRepository == null)
             {
                 return NotFound();
             }
 
-            var supplier = _unitOfWork.Suppliers.GetById(id);
+            var supplier = _unitOfWork.SuppliersRepository.GetById(id);
 
             if (supplier == null)
             {
@@ -44,16 +44,16 @@ namespace SignalRAssignment.Pages.SupplierPages
 
         public IActionResult OnPostAsync(int id)
         {
-            if (id == null || _unitOfWork.Suppliers == null)
+            if (id == null || _unitOfWork.SuppliersRepository == null)
             {
                 return NotFound();
             }
-            var supplier =  _unitOfWork.Suppliers.GetById(id);
+            var supplier =  _unitOfWork.SuppliersRepository.GetById(id);
 
             if (supplier != null)
             {
                 Supplier = supplier;
-                _unitOfWork.Suppliers.Remove(Supplier);
+                _unitOfWork.SuppliersRepository.Remove(Supplier);
                 _unitOfWork.Save();
             }
 

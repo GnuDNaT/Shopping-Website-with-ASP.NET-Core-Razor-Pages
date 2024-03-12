@@ -1,4 +1,5 @@
-﻿using Repository.Interface;
+﻿using Microsoft.EntityFrameworkCore;
+using Repository.Interface;
 using Repository.Model;
 using System;
 using System.Collections.Generic;
@@ -10,40 +11,77 @@ namespace Repository.Repository
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly PizzaStoreContext _context;
-        public ICustomerRepository Customers { get; private set; }
-        public IOderRepository Orders { get; private set; }
-        public IAccountRepository Accounts { get; private set; }
+        private readonly PizzaStoreContext _context ;
+        private IGenericRepository<Customer> _customersRepository;
+        private IGenericRepository<Account> _accountRepository;
+        private IGenericRepository<Order> _orderRepository;
+        private IGenericRepository<Product> _productRepository;
+        private IGenericRepository<Supplier> _supplierRepository;
+        private IGenericRepository<Category> _categoryRepository;
 
-        public PizzaStoreContext StoreContext { get; private set; }
-
-        public IProductRepository Products { get; private set; }
-
-        public ISupplierRepository Suppliers { get; private set; }
-
-        public ICategoryRepository Categories { get; private set; }
-
-        public UnitOfWork(PizzaStoreContext context)
+        public UnitOfWork(PizzaStoreContext pizzaStoreContext)
         {
-            _context = context;
-            StoreContext = context;
-            Customers = new CustomerRepository(_context);
-            Orders = new OrderRepository(_context);
-            Accounts = new AccountRepository(_context);
-            Products = new ProductRepository(_context);
-            Suppliers = new SupplierRepository(_context);
-            Categories = new CategoryRepository(_context);
+            _context = pizzaStoreContext;
+        }
+        public IGenericRepository<Customer> CustomersRepository
+        {
+            get
+            {
+                return _customersRepository ??= new GenericRepository<Customer>(_context);
+            }
         }
 
+        public IGenericRepository<Order> OrdersRepository { 
+            get
+            {
+                return _orderRepository ??= new GenericRepository<Order>(_context);
+            }
+        }
 
+        public IGenericRepository<Product> ProductsRepository {
+            get 
+            {
+                return _productRepository ??= new GenericRepository<Product>(_context); 
+            } 
+        }
+
+        public IGenericRepository<Supplier> SuppliersRepository
+        {
+            get
+            {
+                return _supplierRepository ??= new GenericRepository<Supplier>(_context);
+            }   
+        }
+
+        public IGenericRepository<Category> CategoriesRepository {
+            get
+            {
+                return _categoryRepository ??= new GenericRepository<Category>(_context);
+            }
+        }
+
+        public IGenericRepository<Account> AccountsRepository
+        {
+            get
+            {
+                return _accountRepository ??= new GenericRepository<Account>(_context);
+            }
+        }
+
+        public PizzaStoreContext StoreContext => _context;
 
         public int Save()
         {
-            return _context.SaveChanges();
+            return StoreContext.SaveChanges();
         }
         public void Dispose()
         {
-            _context.Dispose();
+            StoreContext.Dispose();
+        }
+
+        public async Task<Account> GetUserByUsernameAndPasswordAsync(string username, string password)
+        {
+            return await StoreContext.Accounts.FirstOrDefaultAsync(a => a.UserName == username && a.Password == password);
         }
     }
 }

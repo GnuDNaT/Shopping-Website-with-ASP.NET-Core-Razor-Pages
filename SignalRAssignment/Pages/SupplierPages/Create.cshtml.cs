@@ -31,12 +31,12 @@ namespace SignalRAssignment.Pages.SupplierPages
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _unitOfWork.Suppliers == null || Supplier == null)
+          if (!ModelState.IsValid || _unitOfWork.SuppliersRepository == null || Supplier == null)
             {
                 return Page();
             }
 
-            _unitOfWork.Suppliers.Add(Supplier);
+            _unitOfWork.SuppliersRepository.Add(Supplier);
             _unitOfWork.Save();
 
             return RedirectToPage("./Index");

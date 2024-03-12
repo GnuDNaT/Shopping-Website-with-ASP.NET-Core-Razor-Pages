@@ -31,12 +31,12 @@ namespace SignalRAssignment.Pages.CustomerPages
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPost()
         {
-            if (!ModelState.IsValid || _unitOfWork.Customers == null || Customer == null)
+            if (!ModelState.IsValid || _unitOfWork.CustomersRepository == null || Customer == null)
             {
                 return Page();
             }
 
-            _unitOfWork.Customers.Add(Customer);
+            _unitOfWork.CustomersRepository.Add(Customer);
             _unitOfWork.Save();
 
             return RedirectToPage("./Index");

@@ -31,25 +31,25 @@ namespace Repository.Repository
             _context.Set<T>().AddRange(entities);
         }
 
-        public IEnumerable<T> Find(Expression<Func<T, bool>> expression)
-        {
-            return _context.Set<T>().Where(expression);
-        }
+        //public IEnumerable<T> Find(Expression<Func<T, bool>> expression)
+        //{
+        //    return _context.Set<T>().Where(expression);
+        //}
 
-        public IEnumerable<T> GetAll()
-        {
-            return _context.Set<T>().ToList();
-        }
+        //public IEnumerable<T> GetAll()
+        //{
+        //    return _context.Set<T>().ToList();
+        //}
 
         public T GetById(int id)
         {
             return _context.Set<T>().Find(id);
         }
 
-        public T GetByUserName(string name)
-        {
-            return _context.Set<T>().Find(name);
-        }
+        //public T GetByUserName(string name)
+        //{
+        //    return _context.Set<T>().Find(name);
+        //}
 
         public void Remove(T entity)
         {
